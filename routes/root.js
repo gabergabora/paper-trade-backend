@@ -5,14 +5,14 @@ const rootRouter = (app) => {
 
     //Root routes
 
-    app.use('/', 
+    app.use('/',
 
         router.get('/', (req, res) => {
             res.status(200).json({
                 message: 'Welcome to paper trade'
             });
         })
-        
+
     )
 
     //Unprotected Routes
@@ -23,6 +23,13 @@ const rootRouter = (app) => {
 
     //JWT Protescted routes below
 
+
+    //404 handler
+    app.use('*', (req, res) => {
+        res.status(404).json({
+            message: 'Oops! The resource you are looking for is not found :)'
+        })
+    });
 
 }
 

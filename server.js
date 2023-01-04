@@ -1,9 +1,14 @@
+require('dotenv').config();
 const express = require('express');
 const app = express();
-// const errorHandler = require('package');
+const errorHandler = require('./middlewares/errorHandler');
 const {logRequest} = require('./middlewares/logger');
+const connectDB = require('./config/connectDB');
+const mongoose = require('mongoose');
 
-const PORT = 4000;
+const PORT =  process.env.PORT|| 4000;
+
+connectDB();
 
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
@@ -15,17 +20,12 @@ require('./routes/root')(app);
 
 
 
-//404 handler
-app.use('*', (req, res) => {
-    res.status(404).json({
-        message: 'Oops! The resource you are looking for is not found :)'
-    })
-});
-
 //error handler
-// app.use(errorHandler);
+app.use(errorHandler);
 
-
-app.listen(PORT, () => {
-    console.log(`Server is listening at port: ${PORT}`)
+mongoose.connection.once('open', () => {
+    console.log('Connected to DB');
+    app.listen(PORT, () => {
+        console.log(`Server is listening at port: ${PORT}`)
+    })
 })
