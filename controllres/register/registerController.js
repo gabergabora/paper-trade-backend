@@ -1,12 +1,75 @@
-const registrationController = (req, res) => {
+const User = require("../../models/User");
+const bcrypt = require('bcrypt');
 
-    console.log('registration succesful');
+const registrationController = async (req, res) => {
 
-    res.status(200).json({
-        message: 'Registration successful'
+    // destructuring the request
+    const { email, password, roles, firstname, lastname } = req.body;
+
+    // check for properly formatted request
+
+    if (!email || !password || !firstname) {
+        return res.status(400).json({
+            message: "Email, Password and First Name are required!"
+        })
+    }
+
+    // check for email and password format: ToDo
+
+    // checking for duplicate user
+
+    const duplicateUser = await User.findOne({ email: email }).exec();
+
+    if (duplicateUser) {
+        return res.status(409).json({ //Conflict: 409
+            message: `Your account with ${email} is already created. Please log in!`
+        })
+    }
+
+    // hashing the password
+
+    const hashedPassword = await bcrypt.hash(password, 10).catch(err => {
+        return res.status(500).json({
+            message: 'Internal server error! Please try again later!',
+            description: err
+        })
     })
+
+
+    /** 
+     * Creating the user in the DB 
+     */
+
+    // Generating a unique username using email and math.random()
+    const emailStr = email;
+    const unique_username = emailStr.split('@')[0].replace('@', '') + Math.floor(Math.random() * 1000);
+
+    const result = await User.create({
+        username: unique_username,
+        email: email,
+        password: hashedPassword,
+        roles: roles,
+        firstname: firstname,
+        lastname: lastname,
+    }).catch(err => {
+        console.log(err)
+        return res.status(500).json({
+            message: 'Internal server error! Please try again later!',
+            description: err
+        })
+    })
+
+    console.log(result);
+
+
+    return res.status(201).json({
+        message: `Your account with ${email} has been created successfully. Now proceed to login!`
+    })
+
+
+
 
 }
 
 
-module.exports = {registrationController}
+module.exports = { registrationController }

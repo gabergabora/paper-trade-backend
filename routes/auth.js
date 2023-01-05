@@ -1,18 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
-router.get('/login', (req, res)=> {
+const {emailPassLoginController} = require('../controllres/login/loginController');
 
-    const {email, password} = req.body;
-
-    // check for user exist in database
-
-        //if exists: get the user, match the passowrd and return result
-
-    res.status(200).json({
-        message: 'Login successful!'
-    })
-})
+router.post('/login', emailPassLoginController)
 
 
 module.exports = router

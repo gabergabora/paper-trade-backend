@@ -16,7 +16,7 @@ const rootRouter = (app) => {
     )
 
     //Unprotected Routes
-    app.use('/register', require('./register'));
+    app.use('/signup', require('./register'));
     app.use('/auth', require('./auth'));
 
 
