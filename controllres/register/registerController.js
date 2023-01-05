@@ -14,7 +14,21 @@ const registrationController = async (req, res) => {
         })
     }
 
-    // check for email and password format: ToDo
+    // check for email and password format
+    const emailRegEx = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,4}');
+    
+    if(!emailRegEx.test(email)){
+        return res.status(400).json({
+            message: `${email}, is not a valid email address!`
+        })
+    }
+
+    if(password.length < 6){
+        return res.status(400).json({
+            message: `Password must of at least 6 characters!`
+        })
+    }
+
 
     // checking for duplicate user
 
