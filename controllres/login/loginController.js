@@ -15,7 +15,7 @@ const emailPassLoginController = async (req, res) => {
     if (!foundUser) {
         // User not found
         return res.status(401).json({
-            message: `No user found with email: ${email}`
+            message: `USER_NOT_FOUND`
         })
     }
 
@@ -25,8 +25,8 @@ const emailPassLoginController = async (req, res) => {
 
         if (!match) {
             // Password does not match
-            return res.statu(401).json({
-                message: `Password for ${email} is invalid!`
+            return res.status(401).json({
+                message: `INCORRECT_PASSWORD`
             })
         }
 
@@ -64,7 +64,8 @@ const emailPassLoginController = async (req, res) => {
 
 
         return res.status(201).json({
-            message: `Welcome ${email}! Logged in successfuly!`,
+            firstname: foundUser.firstname,
+            message: `LOGIN_SUCCESS`,
             accessToken: accessToken
 
         })
