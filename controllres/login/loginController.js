@@ -32,14 +32,14 @@ const emailPassLoginController = async (req, res) => {
 
 
         //match is successful, generate access + refresh tokens
-        const refreshToken = await jwt.sign({
-            UserRoles: {
+        const refreshToken =  jwt.sign({
+            
                 username: foundUser.username,
                 firstname: foundUser.firstname,
                 email: foundUser.email,
                 userRoles: foundUser.roles
-            }
-        }, process.env.JWT_REFRESH_TOKEN_SECRET, { expiresIn: '1000s' });
+            
+        }, process.env.JWT_REFRESH_TOKEN_SECRET, { expiresIn: '60s' });
 
 
         const accessToken = await jwt.sign({
@@ -47,7 +47,7 @@ const emailPassLoginController = async (req, res) => {
             firstname: foundUser.firstname,
             email: foundUser.email,
             userRoles: foundUser.roles
-        }, process.env.JWT_ACCESS_TOKEN_SECRET, { expiresIn: '1000s' });
+        }, process.env.JWT_ACCESS_TOKEN_SECRET, { expiresIn: '30s' });
 
         foundUser.refreshToken = refreshToken;
 
@@ -56,17 +56,17 @@ const emailPassLoginController = async (req, res) => {
             return res.status(500).json({ message: err })
         })
 
-        console.log(result);
-
         //Issuing cookie
         //HTTP-Only cookie is not available to JS. So cannot be stolen by hackers
-        res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'None', maxAge: 24 * 60 * 60 * 1000 }); //1day
-
+        // httpOnly: true, sameSite: 'None', secure: true,
+        //sameSite: 'None' was creating the problem
+        res.cookie('jwt', refreshToken, {httpOnly: true, secure:true, maxAge: 24 * 60 * 60 * 1000 }); //1day
 
         return res.status(201).json({
             firstname: foundUser.firstname,
             message: `LOGIN_SUCCESS`,
-            accessToken: accessToken
+            accessToken: accessToken,
+            roles: foundUser.roles,
 
         })
 
@@ -74,19 +74,6 @@ const emailPassLoginController = async (req, res) => {
         console.error(err)
         return res.status(500).json({ message: err })
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
 
 module.exports = { emailPassLoginController }

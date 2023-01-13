@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const verifyJWT = require('../middlewares/verifyJWT');
 
 const rootRouter = (app) => {
 
@@ -22,6 +23,10 @@ const rootRouter = (app) => {
 
 
     //JWT Protescted routes below
+
+    app.use('/user', verifyJWT); //verify the request only then move to the next route
+    app.use('/user', require('./user'));
+
 
 
     //404 handler

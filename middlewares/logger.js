@@ -5,7 +5,7 @@ const { randomUUID } = require('crypto');
 
 const logEvent = async (message, filename) => {
 
-    const date = format(new Date(), 'dd-MM-yyy \t hh:MM:ss',);
+    const date = format(new Date(), 'dd-MM-yyy \t hh:mm:ss',);
     const toWrite = date + '\t' + randomUUID() + '\t' + message + '\n';
     console.log(toWrite);
 
