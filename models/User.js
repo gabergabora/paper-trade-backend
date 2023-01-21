@@ -11,6 +11,7 @@ const userSchema = mongoose.Schema({
         type: String,
         // required: true
     },
+    accountNumbers: [Number],
     email: {
         type: String,
         required: true
@@ -33,6 +34,16 @@ const userSchema = mongoose.Schema({
         Anonymous: Number
 
     },
+
+    createdAt: {
+        type: Date,
+        default: Date.now()
+    },
+    updatedAt: {
+        type: Date,
+        default: Date.now()
+    },
+
     refreshToken: String,
 
     schema_version: {

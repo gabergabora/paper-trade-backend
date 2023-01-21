@@ -27,6 +27,9 @@ const rootRouter = (app) => {
     app.use('/user', verifyJWT); //verify the request only then move to the next route
     app.use('/user', require('./user'));
 
+    // Dedicated route to perform testing
+
+    app.use('/test', require('./test'));
 
 
     //404 handler

@@ -1,5 +1,11 @@
 const User = require("../../models/User");
 const bcrypt = require('bcrypt');
+const Funds = require("../../models/Funds");
+const Watchlist = require('../../models/Watchlist');
+const Positions = require('../../models/Positions');
+const Orders = require('../../models/Orders');
+const { default: mongoose } = require("mongoose");
+const Constants = require("../../models/Constants");
 
 const registrationController = async (req, res) => {
 
@@ -57,29 +63,66 @@ const registrationController = async (req, res) => {
     // Generating a unique username using email and math.random()
     const emailStr = email;
     const unique_username = emailStr.split('@')[0].replace('@', '') + Math.floor(Math.random() * 1000);
+    
+    const constantsProvider = await Constants.find();
 
-    const result = await User.create({
-        username: unique_username,
-        email: email,
-        password: hashedPassword,
-        roles: roles,
-        firstname: firstname,
-        lastname: lastname,
-    }).catch(err => {
-        console.log(err)
-        return res.status(500).json({
-            message: 'Internal server error! Please try again later!',
-            description: err
+    if(!constantsProvider[0]){
+        console.log('could not load latest_account_number to issue account number');
+        return res.status(500).json({message: `Could not load latest_account_number to load`})
+    }
+
+    const accNo = constantsProvider[0].latest_account_number + 1;
+
+
+
+
+    try{
+
+        const createdUser = await User.create({
+            username: unique_username,
+            email: email,
+            accountNumbers: [accNo],
+            password: hashedPassword,
+            roles: roles,
+            firstname: firstname,
+            lastname: lastname,
         })
-    })
 
-    console.log(result);
+        const fundsAccount = await Funds.create({
+            email: email,
+            accountNumber: accNo,
+        })
+
+        const watchlistProfile = await Watchlist.create({
+            email: email,
+            accountNumber: accNo,
+            watchlist:[]
+        })
+        const positions = await Positions.create({
+            email: email,
+            accountNumber: accNo,
+            positions:[]
+        })
+        const orders = await Orders.create({
+            email: email,
+            accountNumber: accNo,
+            orders:[]
+        })
 
 
-    return res.status(201).json({
-        message: `Your account with ${email} has been created successfully. Now proceed to login!`
-    })
 
+        return res.status(201).json({
+            message: `Your account with ${email} has been created successfully. Now proceed to login!`
+        })
+
+    
+
+    }catch (err){
+        res.status(500).json({
+            message: `Sorry, we were not able to create your account at the moment due to our internal error!`
+        })
+        console.error(err);
+    }
 
 
 

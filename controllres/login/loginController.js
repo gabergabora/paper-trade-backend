@@ -14,7 +14,7 @@ const emailPassLoginController = async (req, res) => {
     const foundUser = await User.findOne({ email: email }).exec();
 
     if (!foundUser) {
-        // User not found
+        // User not found   
         return res.status(401).json({
             message: `USER_NOT_FOUND`
         })
@@ -40,7 +40,7 @@ const emailPassLoginController = async (req, res) => {
                 email: foundUser.email,
                 userRoles: foundUser.roles
             
-        }, process.env.JWT_REFRESH_TOKEN_SECRET, { expiresIn: '60s' });
+        }, process.env.JWT_REFRESH_TOKEN_SECRET, { expiresIn: '1200s' });
 
 
         const accessToken = await jwt.sign({
@@ -48,7 +48,7 @@ const emailPassLoginController = async (req, res) => {
             firstname: foundUser.firstname,
             email: foundUser.email,
             userRoles: foundUser.roles
-        }, process.env.JWT_ACCESS_TOKEN_SECRET, { expiresIn: '30s' });
+        }, process.env.JWT_ACCESS_TOKEN_SECRET, { expiresIn: '300s' });
 
         foundUser.refreshToken = refreshToken;
 
