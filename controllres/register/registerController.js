@@ -87,7 +87,7 @@ const registrationController = async (req, res) => {
             firstname: firstname,
             lastname: lastname,
         })
-
+ 
         const fundsAccount = await Funds.create({
             email: email,
             accountNumber: accNo,

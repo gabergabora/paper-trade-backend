@@ -37,7 +37,7 @@ const refreshTokenController = async (req, res) => {
                 firstname: foundUser.firstname,
                 email: foundUser.email,
                 userRoles: foundUser.roles
-            }, process.env.JWT_ACCESS_TOKEN_SECRET, { expiresIn: '30s' });
+            }, process.env.JWT_ACCESS_TOKEN_SECRET, { expiresIn: '300s' });
 
             res.json({ accessToken: accessToken, roles: foundUser.roles, email: foundUser.email })
 

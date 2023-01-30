@@ -15,27 +15,19 @@ const ordersModel = mongooese.Schema({
             scriptName: String,
             qty: Number,
             avgCost: Number,
-            createdAt: Date,
-            orderStatus: {
-                Active: Number, // 1101
-                Failed: Number, //1102
-                Completed: Number, //1103
-                Cancelled: Number, //1103
+            createdAt: {
+                type: Date,
+                default: Date.now()
             },
-            orderPrice: Number,
-            orderValidity: {
-                IOC: Number,
-                DAY: Number,
-            },
+            orderStatus: String,
+            // orderPrice: Number,
+            orderValidity: String,
             positionType: {
-                Intraday: Number,
-                Delivery: Number,
+                type: String,
+                default: 'BUY'
             },
-            orderType: {
-                Limit: Number,
-                AMO: Number,
-                Market: Number
-            }
+            transactionType: String,
+            orderType: String
         }
 
     ],
@@ -44,7 +36,7 @@ const ordersModel = mongooese.Schema({
 
     schema_version: {
         type: Number,
-        default: 1
+        default: 2
     }
 
 

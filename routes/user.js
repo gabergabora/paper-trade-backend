@@ -3,6 +3,10 @@ const router = express.Router();
 const { getAccountInfo, updateAccountInfo } = require('../controllres/user/accountInfoController');
 const { getPorftfolio, updatePortfolioItem, deletePorfolioItem } = require('../controllres/user/portfolioController');
 const {getFunds, updateFunds} = require('../controllres/account/fundsController');
+const { getAllOrders, createNewOrder
+    // , deleteOrder
+} = require('../controllres/orders/ordersController');
+const { getAllPositions } = require('../controllres/positions/positionController');
 
 router.get('/accountinfo', getAccountInfo);
 // router.post('/accountinfo/update', updateAccountInfo);
@@ -10,6 +14,14 @@ router.get('/accountinfo', getAccountInfo);
 // router.get('/portfolio', getPortfolio);
 // router.post('/portfolio/delete', deletePorfolioItem);
 // router.post('/portfolio/update', updateAccountInfo);
+
+router.get('/orders', getAllOrders);
+router.post('/orders', createNewOrder )
+// router.patch('/orders', updateOrder )
+// router.delete('/orders', deleteOrder)
+
+router.get('/positions', getAllPositions)
+
 
 router.get('/funds', getFunds);
 router.put('/funds', updateFunds)

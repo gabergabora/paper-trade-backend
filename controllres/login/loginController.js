@@ -8,7 +8,7 @@ const emailPassLoginController = async (req, res) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
-        return res.status(400).json({ message: 'Username and password are required!' });
+        return res.status(400).json({ message: 'Username and password are required!', email: email, pass: password });
     }
 
     const foundUser = await User.findOne({ email: email }).exec();
@@ -40,7 +40,7 @@ const emailPassLoginController = async (req, res) => {
                 email: foundUser.email,
                 userRoles: foundUser.roles
             
-        }, process.env.JWT_REFRESH_TOKEN_SECRET, { expiresIn: '1200s' });
+        }, process.env.JWT_REFRESH_TOKEN_SECRET, { expiresIn: '36000s' });
 
 
         const accessToken = await jwt.sign({
