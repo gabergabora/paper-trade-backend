@@ -9,6 +9,7 @@ const mongoose = require('mongoose');
 const corsOption = require('./config/corsConfig')
 const cors = require('cors');
 const credentials = require('./middlewares/credentials'); 
+const router = express.Router();
 
 const PORT =  process.env.PORT|| 4000;
 
@@ -30,6 +31,23 @@ app.use(express.urlencoded({extended: false}));
 
 // Middleware for cookies
 app.use(cookiePasrser())
+
+
+    app.use('/',
+
+        router.get('/', (req, res) => {
+            res.status(200).json({
+                message: 'Welcome to paper trade'
+            });
+        })
+
+    )
+
+    //Unprotected Routes
+    app.use('/signup', require('./register'));
+    app.use('/auth', require('./auth'));
+
+
 
 //setting up all root routes
 // app.get('/', (req, res) => {
