@@ -33,28 +33,28 @@ app.use(express.urlencoded({extended: false}));
 app.use(cookiePasrser())
 
 
-    app.use('/',
+    // app.use('/',
 
-        router.get('/', (req, res) => {
-            res.status(200).json({
-                message: 'Welcome to paper trade'
-            });
-        })
+    //     router.get('/', (req, res) => {
+    //         res.status(200).json({
+    //             message: 'Welcome to paper trade'
+    //         });
+    //     })
 
-    )
+    // )
 
-    //Unprotected Routes
-    app.use('/signup', require('./register'));
-    app.use('/auth', require('./auth'));
+    // //Unprotected Routes
+    // app.use('/signup', require('./register'));
+    // app.use('/auth', require('./auth'));
 
 
 
 //setting up all root routes
-// app.get('/', (req, res) => {
-//     res.status(200).json({
-//         message: "Welcome to papertrader backend home."
-//     })
-// })
+app.get('/', (req, res) => {
+    res.status(200).json({
+        message: "Welcome to papertrader backend home."
+    })
+})
 
 require('./routes/root')(app);
 
