@@ -9,6 +9,8 @@ const getAllPositions = async (req, res) => {
         return res.status(400).json({ message: 'BAD_REQUEST', msg: 'email not present in the request' });
     }
 
+    
+
     const positionsAccount = await Positions.findOne({ email: email }).exec();
 
     if (!positionsAccount) {

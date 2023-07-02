@@ -12,7 +12,7 @@ const fundsModel = mongooese.Schema({
     fundsInfo: {
         available_funds: {
             type: Number,
-            default: 0.00
+            default: 1000000.00
         },
         lien_amount: {
             type: Number,

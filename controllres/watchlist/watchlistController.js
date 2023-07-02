@@ -9,9 +9,11 @@ const getWatchlist = async (req, res) => {
         return res.status(400).json({ message: 'BAD_REQUEST', msg: 'email not present in the request' });
     }
 
+
     const watchListAccount = await WatchList.findOne({ email: email }).exec();
 
     if (!watchListAccount) {
+        
         return res.status(201).json({ message: 'NO_WATCHLIST_ACCOUNT_FOUND' });
     }
 
@@ -22,6 +24,46 @@ const getWatchlist = async (req, res) => {
     }
 
     res.status(200).json({ watchlist });
+}
+
+const addWatchlistItem = async (req, res) => {
+
+    const email = req.email;
+    const data = req.body.payload;
+
+    if (!email) {
+        return res.status(401).json({ message: 'UNAUTHORIZED', msg: 'email not present in the request' });
+    }
+
+    const watchListAccount = await WatchList.findOne({ email: email }).exec();
+
+    if (!watchListAccount) {
+        return res.status(201).json({ message: 'NO_WATCHLIST_ACCOUNT_FOUND' });
+    }
+
+    const newItem = {
+        scriptName: data.scriptName,
+        ltp: data.ltp || 0,
+        exchange: data.exchange,
+        tradingAllowed: data.tradingAllowed || true,
+    }
+
+
+    try{
+
+        watchListAccount.watchlist.push(newItem);
+        const data = await watchListAccount.save();
+
+        res.status(201).json({message: 'ITEM_ADDED', data })
+    }catch(error){
+        
+        res.status(500).json({message: 'INTERNAL_SERVER_ERROR', error })
+        console.error(error);
+    }
+
+
+
+
 }
 
 
@@ -91,4 +133,4 @@ const createNewOrder = async (req, res) => {
 
 }
 
-module.exports = { getWatchlist }
+module.exports = { getWatchlist, addWatchlistItem }
