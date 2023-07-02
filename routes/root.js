@@ -6,15 +6,15 @@ const rootRouter = (app) => {
 
     //Root routes
 
-    app.use('/',
+    // app.use('/',
 
-        router.get('/', (req, res) => {
-            res.status(200).json({
-                message: 'Welcome to paper trade'
-            });
-        })
+    //     router.get('/', (req, res) => {
+    //         res.status(200).json({
+    //             message: 'Welcome to paper trade'
+    //         });
+    //     })
 
-    )
+    // )
 
     //Unprotected Routes
     app.use('/signup', require('./register'));

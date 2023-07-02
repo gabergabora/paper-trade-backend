@@ -32,6 +32,12 @@ app.use(express.urlencoded({extended: false}));
 app.use(cookiePasrser())
 
 //setting up all root routes
+app.get('/', (req, res) => {
+    res.status(200).json({
+        message: "Welcome to papertrader backend home."
+    })
+})
+
 require('./routes/root')(app);
 
 
