@@ -20,8 +20,8 @@ app.use(logRequest);
  * and fetch cookies credentail requirements. */
 
 // setting up cors
-app.use(credentials)
-app.use(cors(corsOption));
+// app.use(credentials)
+// app.use(cors(corsOption));
 
 
 app.use(express.json());
