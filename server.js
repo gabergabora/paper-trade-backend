@@ -20,8 +20,8 @@ app.use(logRequest);
  * and fetch cookies credentail requirements. */
 
 // setting up cors
-// app.use(credentials)
-// app.use(cors(corsOption));
+app.use(credentials)
+app.use(cors(corsOption));
 
 
 app.use(express.json());
@@ -32,11 +32,11 @@ app.use(express.urlencoded({extended: false}));
 app.use(cookiePasrser())
 
 //setting up all root routes
-app.get('/', (req, res) => {
-    res.status(200).json({
-        message: "Welcome to papertrader backend home."
-    })
-})
+// app.get('/', (req, res) => {
+//     res.status(200).json({
+//         message: "Welcome to papertrader backend home."
+//     })
+// })
 
 require('./routes/root')(app);
 
