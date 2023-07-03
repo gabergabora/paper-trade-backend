@@ -66,6 +66,7 @@ const emailPassLoginController = async (req, res) => {
         return res.status(201).json({
             firstname: foundUser.firstname,
             message: `LOGIN_SUCCESS`,
+            email: foundUser.email,
             accessToken: accessToken,
             roles: foundUser.roles,
 
