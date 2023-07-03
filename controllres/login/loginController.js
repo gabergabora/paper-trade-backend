@@ -60,12 +60,17 @@ const emailPassLoginController = async (req, res) => {
         //HTTP-Only cookie is not available to JS. So cannot be stolen by hackers
         // httpOnly: true, sameSite: 'None', secure: true,
         //sameSite: 'None' was creating the problem
+<<<<<<< HEAD
 
         res.cookie('jwt', refreshToken, {httpOnly: true, secure:false, maxAge: 24 * 60 * 60 * 1000 }); //1day
+=======
+        res.cookie('jwt', refreshToken, {httpOnly: false, secure:false, sameSite: 'none', maxAge: 24 * 60 * 60 * 1000 }); //1day
+>>>>>>> abf1e9e1076cc4fb9a0e10a04f1c224138352764
 
         return res.status(201).json({
             firstname: foundUser.firstname,
             message: `LOGIN_SUCCESS`,
+            email: foundUser.email,
             accessToken: accessToken,
             roles: foundUser.roles,
 
