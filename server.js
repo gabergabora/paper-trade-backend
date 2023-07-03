@@ -24,9 +24,9 @@ app.use(logRequest);
 
 // setting up cors
 app.use(credentials)
-app.use(cors());
+// app.use(cors());
 
-// app.use(cors(corsOption));
+app.use(cors(corsOption));
 
 
 app.use(express.json());
