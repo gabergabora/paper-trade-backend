@@ -7,14 +7,14 @@ const TestModel = require('../models/TestModel');
 
 router.post('/', async (req, res) => {
 
-    res.status(200).json({message: "asdf"})
+    // res.status(200).json({message: "asdf"})
 
-    // const data = await TestModel.create({
+    const data = await TestModel.create({
 
-    //     testObject: 23423.66
-    // })
+        testObject: 23423.66
+    })
     
-    // res.json({data: data})
+    res.json({data: data})
 
 })
 
