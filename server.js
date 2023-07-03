@@ -16,13 +16,17 @@ const PORT =  process.env.PORT|| 4000;
 connectDB();
 
 app.use(logRequest);
+// const cors = require('cors');
 
+// const app = express();
 /** Handle options credential check - before CORS
  * and fetch cookies credentail requirements. */
 
 // setting up cors
 app.use(credentials)
-app.use(cors(corsOption));
+app.use(cors());
+
+// app.use(cors(corsOption));
 
 
 app.use(express.json());
