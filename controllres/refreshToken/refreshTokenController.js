@@ -9,7 +9,9 @@ const refreshTokenController = async (req, res) => {
 
     if (!cookies?.jwt) {
         // Checking if there is cookie and it has a jwt property
+        console.log("cookies are empty");
         return res.sendStatus(401);
+        
     }
     const refreshToken = cookies.jwt;
  
